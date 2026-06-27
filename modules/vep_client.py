@@ -14,7 +14,14 @@ def annotate_variant(chrom, pos, ref, alt):
         "Accept": "application/json"
     }
 
+    print("URL:")
+    print(url)
+    
     response = requests.get(url, headers=headers)
 
-    return response.json()
+    print("STATUS:", response.status_code)
+    print("TEXT:")
+    print(response.text)
+
+    return response.text
 
