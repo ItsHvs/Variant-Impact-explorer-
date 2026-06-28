@@ -6,6 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from flask import Flask, render_template, request
 from modules.input_parser import load_variants
 from modules.vep_client import annotate_variant
+from modules.result_parser import parse_result
 import json
 
 print("Starting Flask app...")
@@ -28,7 +29,7 @@ def analyze():
 
     variants = load_variants(filepath)
 
-    output = ""
+    results = []
 
     for variant in variants:
 
@@ -39,10 +40,19 @@ def analyze():
             variant["alt"]
         )
 
-        return "<pre>" + json.dumps(result, indent=4) + "</pre>"
+        parsed = parse_result(result)
 
+        print("PARSED RESULT:")
+        print(parsed)
+
+        results.append(parsed)
+
+    return render_template(
+         "result.html",
+          results=results
+    )
     
-print("__name__ =", __name__)
+    print("__name__ =", __name__)
 
 if __name__ == "__main__":
     print("Launching Flask...")

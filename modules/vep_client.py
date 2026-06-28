@@ -23,5 +23,5 @@ def annotate_variant(chrom, pos, ref, alt):
     print("TEXT:")
     print(response.text)
 
-    return response.text
+    return response.json()
 
